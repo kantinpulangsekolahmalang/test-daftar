@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Peserta Lomba</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+            padding: 35px 20px;
+            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #25d366 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(27, 94, 32, 0.3);
+            color: white;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        .header img {
+            width: 90px; height: 90px;
+            margin-bottom: 15px;
+            background: white;
+            border-radius: 50%;
+            padding: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+        .header h1 { font-size: 2.2em; margin-bottom: 8px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); position: relative; z-index: 1; }
+        .header p { font-size: 1.1em; opacity: 0.95; position: relative; z-index: 1; }
+
+        /* CTA Button */
+        .cta-wrap {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: white;
+            text-decoration: none;
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.15em;
+            box-shadow: 0 8px 24px rgba(37,211,102,0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .cta-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(37,211,102,0.5);
+        }
+        .cta-btn img { width: 28px; height: 28px; background: white; border-radius: 50%; padding: 2px; }
+
+        .wrapper { max-width: 1000px; margin: 0 auto; }
+
+        .section-title {
+            font-size: 1.5em;
+            color: #1b5e20;
+            margin: 25px 0 18px 0;
+            padding-left: 12px;
+            border-left: 5px solid #25d366;
+        }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+        .card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(27, 94, 32, 0.12);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 6px solid #25d366;
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(27, 94, 32, 0.22);
+        }
+        .card-header {
+            background: linear-gradient(135deg, #1b5e20, #2e7d32);
+            color: white;
+            padding: 18px;
+            text-align: center;
+            position: relative;
+        }
+        .card-header h3 { font-size: 1.3em; }
+        .card-header small { opacity: 0.9; }
+        .team-number {
+            position: absolute;
+            top: 12px; right: 12px;
+            background: rgba(255,255,255,0.2);
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 0.85em;
+        }
+        .card-body { padding: 18px; }
+        .info-row {
+            margin-bottom: 14px;
+            padding-bottom: 14px;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        .info-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .label { font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.8px; color: #777; font-weight: 700; margin-bottom: 4px; }
+        .value { font-size: 0.98em; color: #333; font-weight: 600; }
+        .wa-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #25d366; color: white; text-decoration: none;
+            padding: 8px 14px; border-radius: 50px; font-weight: 600; font-size: 0.92em;
+            margin-top: 4px; transition: background 0.2s;
+        }
+        .wa-btn:hover { background: #128c7e; }
+        .wa-btn img { width: 20px; height: 20px; }
+        .players { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+        .tag { background: #e8f5e9; color: #1b5e20; padding: 4px 10px; border-radius: 15px; font-size: 0.8em; font-weight: 600; border: 1px solid #c8e6c9; }
+
+        .footer { text-align: center; margin-top: 40px; color: #2e7d32; font-weight: 600; padding: 20px; }
+
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.5em; }
+            .cta-btn { font-size: 1em; padding: 14px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="logo-wa.png" alt="Logo WhatsApp">
+        <h1>Daftar Peserta Lomba</h1>
+        <p>Berikut adalah tim-tim yang sudah terdaftar. Klik tombol di bawah untuk mendaftarkan tim baru.</p>
+    </div>
+
+    <div class="cta-wrap">
+        <a href="daftar.html" class="cta-btn">
+            <img src="logo-wa.png" alt="WA"> Daftarkan Tim Baru
+        </a>
+    </div>
+
+    <div class="wrapper">
+        <h2 class="section-title">🏆 Peserta Terdaftar</h2>
+        <div class="cards-grid">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="team-number">1</div>
+                    <h3>Tim Macan Hijau</h3>
+                    <small>Futsal Putra</small>
+                </div>
+                <div class="card-body">
+                    <div class="info-row"><div class="label">Ketua</div><div class="value">Ahmad Rizky Pratama</div></div>
+                    <div class="info-row"><div class="label">Alamat</div><div class="value">Jl. Mawar No. 12, Kel. Sempaja, Samarinda Utara</div></div>
+                    <div class="info-row">
+                        <div class="label">WhatsApp</div>
+                        <div class="value"><a class="wa-btn" href="https://wa.me/6281234567891" target="_blank"><img src="logo-wa.png" alt="WA"> 0812-3456-7891</a></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="label">Pemain</div>
+                        <div class="players">
+                            <span class="tag">Ahmad Rizky</span><span class="tag">Budi Santoso</span><span class="tag">Candra Wijaya</span>
+                            <span class="tag">Dedi Firmansyah</span><span class="tag">Eko Saputro</span><span class="tag">Fajar Nugraha</span>
+                            <span class="tag">Gilang Ramadhan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="team-number">2</div>
+                    <h3>Tim Elang Merah</h3>
+                    <small>Futsal Putra</small>
+                </div>
+                <div class="card-body">
+                    <div class="info-row"><div class="label">Ketua</div><div class="value">Bima Sakti Kusuma</div></div>
+                    <div class="info-row"><div class="label">Alamat</div><div class="value">Jl. Melati Indah Blok C5, Kel. Sungai Dama, Samarinda Ilir</div></div>
+                    <div class="info-row">
+                        <div class="label">WhatsApp</div>
+                        <div class="value"><a class="wa-btn" href="https://wa.me/6289876543210" target="_blank"><img src="logo-wa.png" alt="WA"> 0898-7654-3210</a></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="label">Pemain</div>
+                        <div class="players">
+                            <span class="tag">Bima Sakti</span><span class="tag">Hendra Gunawan</span><span class="tag">Irfan Hakim</span>
+                            <span class="tag">Joko Susilo</span><span class="tag">Kurniawan</span><span class="tag">Lutfi Andrian</span>
+                            <span class="tag">Miko Ardana</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="team-number">3</div>
+                    <h3>Tim Harimau Borneo</h3>
+                    <small>Futsal Putra</small>
+                </div>
+                <div class="card-body">
+                    <div class="info-row"><div class="label">Ketua</div><div class="value">Dewa Putra Toraja</div></div>
+                    <div class="info-row"><div class="label">Alamat</div><div class="value">Jl. Kenanga Raya No. 88, Kel. Baqa, Samarinda Seberang</div></div>
+                    <div class="info-row">
+                        <div class="label">WhatsApp</div>
+                        <div class="value"><a class="wa-btn" href="https://wa.me/6281122334455" target="_blank"><img src="logo-wa.png" alt="WA"> 0811-2233-4455</a></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="label">Pemain</div>
+                        <div class="players">
+                            <span class="tag">Dewa Putra</span><span class="tag">Nanda Feri</span><span class="tag">Oki Dwi</span>
+                            <span class="tag">Putra Aditya</span><span class="tag">Qomaruddin</span><span class="tag">Raka Septian</span>
+                            <span class="tag">Surya Dharma</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="team-number">4</div>
+                    <h3>Tim Rajawali Emas</h3>
+                    <small>Futsal Putra</small>
+                </div>
+                <div class="card-body">
+                    <div class="info-row"><div class="label">Ketua</div><div class="value">Fahmi Abdullah Saleh</div></div>
+                    <div class="info-row"><div class="label">Alamat</div><div class="value">Perumahan Bukit Pinang Indah, Blok F2 No. 10, Samarinda</div></div>
+                    <div class="info-row">
+                        <div class="label">WhatsApp</div>
+                        <div class="value"><a class="wa-btn" href="https://wa.me/6285566778899" target="_blank"><img src="logo-wa.png" alt="WA"> 0855-6677-8899</a></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="label">Pemain</div>
+                        <div class="players">
+                            <span class="tag">Fahmi Abdullah</span><span class="tag">Teguh Wibowo</span><span class="tag">Udin Saefudin</span>
+                            <span class="tag">Vicky Pratama</span><span class="tag">Wahyu Nugroho</span><span class="tag">Yudi Hartono</span>
+                            <span class="tag">Zainal Abidin</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>📞 Ingin mendaftarkan tim? <a href="daftar.html" style="color:#1b5e20; font-weight:800;">Klik di sini untuk daftar</a></p>
+    </div>
+
+</body>
+</html>

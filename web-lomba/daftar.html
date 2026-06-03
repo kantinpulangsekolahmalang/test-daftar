@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Pendaftaran Lomba</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 40%, #25d366 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px 20px;
+        }
+        .form-wrapper {
+            background: white;
+            border-radius: 24px;
+            padding: 40px 35px;
+            width: 100%;
+            max-width: 720px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+            border-top: 8px solid #25d366;
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .form-header img {
+            width: 75px; height: 75px;
+            margin-bottom: 14px;
+            background: #e8f5e9;
+            border-radius: 50%;
+            padding: 10px;
+            border: 3px solid #25d366;
+            box-shadow: 0 4px 12px rgba(37,211,102,0.3);
+        }
+        .form-header h1 {
+            color: #1b5e20;
+            font-size: 1.9em;
+            margin-bottom: 6px;
+        }
+        .form-header p {
+            color: #555;
+            font-size: 1em;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+        .group {
+            display: flex;
+            flex-direction: column;
+        }
+        .group.full { grid-column: 1 / -1; }
+        label {
+            font-size: 0.82em;
+            font-weight: 700;
+            color: #2e7d32;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 6px;
+        }
+        label .req { color: #d32f2f; font-size: 1.1em; }
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        textarea,
+        select {
+            padding: 12px 14px;
+            border: 2.5px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1em;
+            font-family: inherit;
+            background: #fafafa;
+            transition: all 0.2s;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #25d366;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(37,211,102,0.12);
+        }
+        textarea { resize: vertical; min-height: 80px; }
+
+        /* Pemain */
+        .players-section {
+            background: #f1f8e9;
+            border-radius: 16px;
+            padding: 22px;
+            margin-top: 10px;
+            border: 2px dashed #c8e6c9;
+        }
+        .players-section h3 {
+            color: #1b5e20;
+            font-size: 1.05em;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+        }
+        .player-box {
+            background: white;
+            border-radius: 10px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            transition: border-color 0.2s;
+        }
+        .player-box:focus-within { border-color: #25d366; }
+        .player-box label {
+            font-size: 0.78em;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .player-box input {
+            width: 100%;
+            padding: 10px;
+            font-size: 0.95em;
+        }
+
+        /* Submit */
+        .submit-area {
+            margin-top: 28px;
+            text-align: center;
+        }
+        .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.15em;
+            font-weight: 800;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(37,211,102,0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-submit:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(37,211,102,0.5);
+        }
+        .btn-submit img { width: 28px; height: 28px; }
+        .helper-text {
+            margin-top: 14px;
+            font-size: 0.85em;
+            color: #777;
+        }
+        .helper-text strong { color: #1b5e20; }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #2e7d32;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        @media (max-width: 600px) {
+            .form-wrapper { padding: 25px 20px; }
+            .form-header h1 { font-size: 1.5em; }
+            .players-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-wrapper">
+        <div class="form-header">
+            <img src="logo-wa.png" alt="Logo">
+            <h1>Formulir Pendaftaran Lomba</h1>
+            <p>Lengkapi data tim Anda di bawah ini. Panitia akan menghubungi via WhatsApp.</p>
+        </div>
+
+        <form action="https://formsubmit.co/xf4isalhere@gmail.com" method="POST">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_subject" value="Pendaftaran Tim Lomba Baru">
+            <input type="hidden" name="_next" value="terima-kasih.html">
+
+            <div class="row">
+                <div class="group">
+                    <label for="nama_tim">Nama Tim <span class="req">*</span></label>
+                    <input type="text" id="nama_tim" name="Nama_Tim" placeholder="Contoh: Tim Macan Hijau" required>
+                </div>
+                <div class="group">
+                    <label for="kategori">Kategori Lomba <span class="req">*</span></label>
+                    <select id="kategori" name="Kategori" required>
+                        <option value="" disabled selected>-- Pilih Kategori --</option>
+                        <option value="Futsal Putra">Futsal Putra</option>
+                        <option value="Futsal Putri">Futsal Putri</option>
+                        <option value="Bola Voli">Bola Voli</option>
+                        <option value="Basket">Basket</option>
+                        <option value="Bulu Tangkis">Bulu Tangkis</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="group">
+                    <label for="ketua">Nama Ketua / PJ <span class="req">*</span></label>
+                    <input type="text" id="ketua" name="Nama_Ketua" placeholder="Nama lengkap ketua tim" required>
+                </div>
+                <div class="group">
+                    <label for="whatsapp">Nomor WhatsApp <span class="req">*</span></label>
+                    <input type="tel" id="whatsapp" name="Nomor_WhatsApp" placeholder="08xx-xxxx-xxxx" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="group">
+                    <label for="email">Email Ketua</label>
+                    <input type="email" id="email" name="Email" placeholder="email@contoh.com (opsional)">
+                </div>
+                <div class="group full">
+                    <label for="alamat">Alamat Lengkap Tim <span class="req">*</span></label>
+                    <textarea id="alamat" name="Alamat" rows="3" placeholder="Jl. xxx, Kelurahan, Kecamatan, Kota" required></textarea>
+                </div>
+            </div>
+
+            <div class="players-section">
+                <h3>👥 Daftar Pemain</h3>
+                <div class="players-grid">
+                    <div class="player-box">
+                        <label>Pemain 1 <span class="req">*</span></label>
+                        <input type="text" name="Pemain_1" placeholder="Nama pemain 1" required>
+                    </div>
+                    <div class="player-box">
+                        <label>Pemain 2 <span class="req">*</span></label>
+                        <input type="text" name="Pemain_2" placeholder="Nama pemain 2" required>
+                    </div>
+                    <div class="player-box">
+                        <label>Pemain 3 <span class="req">*</span></label>
+                        <input type="text" name="Pemain_3" placeholder="Nama pemain 3" required>
+                    </div>
+                    <div class="player-box">
+                        <label>Pemain 4 <span class="req">*</span></label>
+                        <input type="text" name="Pemain_4" placeholder="Nama pemain 4" required>
+                    </div>
+                    <div class="player-box">
+                        <label>Pemain 5 <span class="req">*</span></label>
+                        <input type="text" name="Pemain_5" placeholder="Nama pemain 5" required>
+                    </div>
+                    <div class="player-box">
+                        <label>Pemain 6 (Cadangan)</label>
+                        <input type="text" name="Pemain_6" placeholder="Nama pemain 6 (opsional)">
+                    </div>
+                    <div class="player-box">
+                        <label>Pemain 7 (Cadangan)</label>
+                        <input type="text" name="Pemain_7" placeholder="Nama pemain 7 (opsional)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="submit-area">
+                <button type="submit" class="btn-submit">
+                    <img src="logo-wa.png" alt="WA"> Kirim Pendaftaran
+                </button>
+                <p class="helper-text">
+                    Data akan dikirim ke email panitia: <strong>xf4isalhere@gmail.com</strong> melalui FormSubmit.co
+                </p>
+            </div>
+        </form>
+
+        <a href="index.html" class="back-link">⬅ Kembali ke Daftar Peserta</a>
+    </div>
+
+</body>
+</html>
